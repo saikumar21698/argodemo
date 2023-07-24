@@ -1,53 +1,11 @@
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "apiVersion": {
-      "type": "string",
-      "enum": ["storage.k8s.io/v1"]
-    },
-    "kind": {
-      "type": "string",
-      "enum": ["StorageClass"]
-    },
-    "metadata": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": ["name"],
-      "additionalProperties": false
-    },
-    "provisioner": {
-      "type": "string"
-    },
-    "parameters": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "encrypted": {
-          "type": "string",
-          "enum": ["true", "false"]
-        },
-        "kmsKeyId": {
-          "type": "string"
-        }
-      },
-      "required": ["type", "encrypted", "kmsKeyId"],
-      "additionalProperties": false
-    },
-    "reclaimPolicy": {
-      "type": "string",
-      "enum": ["Retain"]
-    },
-    "allowVolumeExpansion": {
-      "type": "boolean"
-    }
-  },
-  "required": ["apiVersion", "kind", "metadata", "provisioner", "parameters", "reclaimPolicy", "allowVolumeExpansion"],
-  "additionalProperties": false
-}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-sc
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp2
+  encrypted: "true"
+  kmsKeyId: aws_kms_key.ebs_key.key_id
+reclaimPolicy: Retain
+allowVolumeExpansion: true
